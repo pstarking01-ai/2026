@@ -12,18 +12,26 @@
     <meta property="og:type" content="website">
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f4f2ed; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .card { width: 340px; background: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; padding: 40px 20px; text-align: center; }
-        .top-tag { color: #cc6c2c; font-size: 15px; font-weight: 700; margin-bottom: 25px; }
-        .profile { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 3px solid #f0f0f0; }
-        .biz-info { font-size: 15px; color: #666; margin-bottom: 5px; }
-        .name { font-size: 26px; font-weight: 700; color: #222; margin-bottom: 25px; }
-        .btn { display: block; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 18px; text-decoration: none; transition: 0.3s; margin-bottom: 12px; }
-        .btn-call { background: #cc6c2c; color: #fff; box-shadow: 0 4px 12px rgba(204, 108, 44, 0.3); }
-        .btn-blog { background: #2db400; color: #fff; box-shadow: 0 4px 12px rgba(45, 180, 0, 0.2); }
-        .slogan { font-size: 14px; color: #888; margin-top: 25px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 20px; }
-    </style>
+ <style>
+    /* ... 상단 스타일 동일 ... */
+    
+    /* 1. 전화 상담 버튼: 진한 오렌지 브라운 (메인) */
+    .btn-call { 
+        background: #cc6c2c; 
+        color: #fff; 
+        box-shadow: 0 4px 12px rgba(204, 108, 44, 0.3); 
+    }
+    
+    /* 2. 블로그 버튼: 부드러운 브라운/베이지 (서브) */
+    /* 네이버 그린 대신 명함 톤에 맞춘 차분한 색상으로 변경 */
+    .btn-blog { 
+        background: #9e8a78; 
+        color: #fff; 
+        box-shadow: 0 4px 12px rgba(158, 138, 120, 0.2); 
+    }
+    
+    /* ... 하단 스타일 동일 ... */
+</style>
 </head>
 <body>
     <div class="card">
@@ -31,10 +39,13 @@
         <img src="photo.jpg" class="profile" alt="박성균 대표">
         <div class="biz-info">성균관공인중개사사무소</div>
         <div class="name">박성균 대표</div>
+        
         <a href="tel:010-8686-6100" class="btn btn-call">📞 전화 상담 바로 연결</a>
-        <a href="https://blog.naver.com/pstarking01" target="_blank" class="btn btn-blog">🍀 블로그 실매물 확인</a>
+        
+        <a href="https://blog.naver.com/pstarking" target="_blank" class="btn btn-blog">🍀 블로그 실매물 확인</a>
+        
         <div class="slogan">
-            공단 토지 선점 정보 제공<br>
+            원주 토지 선점 정보 제공<br>
             수익형 토지, 데이터로 먼저 확보하세요
         </div>
     </div>
