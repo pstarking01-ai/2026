@@ -1,13 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성균관공인중개사사무소 박성균 대표</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(180deg, #ffffff, #f6f6f6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            width: 340px; /* 명함 너비 소폭 조정으로 안정감 확보 */
+            padding: 40px 20px;
+            background: white;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+        }
+
+        .top-text {
+            color: #cc6c2c; /* 성균 님의 땅과 금전의 색상 계열로 통일 */
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        /* [수정] 사진 크기를 100px로 축소하여 황금 비율 확보 */
+        .profile {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #f0f0f0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .office {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .name {
+            font-size: 26px;
+            font-weight: 700;
+            color: #222;
+            margin: 0 0 15px 0;
+        }
+
+        /* [수정] 전화번호 클릭 시 즉시 연결 기능 추가 */
+        .phone-link {
+            display: inline-block;
+            font-size: 20px;
+            font-weight: 700;
+            color: #222;
+            text-decoration: none;
+            margin-bottom: 25px;
+            padding: 10px 20px;
+            background: #f9f9f9;
+            border-radius: 50px;
+        }
+
+        .bottom {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* [수정] 블로그 연결 버튼 추가 */
+        .blog-link {
+            display: block;
+            margin-top: 15px;
+            color: #2db400;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
 <div class="card">
-    <div class="top-text">투자용 토지, 분석부터 다른 중개</div>
-    <img src="photo.jpg" class="profile">
+    <div class="top-text">
+        투자용 토지, 분석부터 다른 중개
+    </div>
+
+    <img src="photo.jpg" class="profile" alt="박성균 대표">
+
     <div class="office">성균관공인중개사사무소</div>
     <div class="name">박성균 대표</div>
-    <div class="phone">
-        <a href="tel:010-8686-6100" style="text-decoration:none; color:inherit;">📞 010-8686-6100</a>
-    </div>
+
+    <a href="tel:010-8686-6100" class="phone-link">
+        📞 010-8686-6100
+    </a>
+
     <div class="bottom">
-        <a href="https://blog.naver.com/pstarking01" target="_blank" style="color:#2db400; text-decoration:none; font-weight:bold;">🍀 블로그 실매물 보기</a><br>
-        공단 토지 선점 정보 제공 / 수익형 토지 확보 전문
+        공단 토지 선점 정보 제공<br>
+        수익형 토지, 데이터로 먼저 확보하세요
+        <a href="https://blog.naver.com/pstarking01" target="_blank" class="blog-link">
+            🍀 블로그에서 실매물 보기
+        </a>
     </div>
 </div>
+
+</body>
+</html>
