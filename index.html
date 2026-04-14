@@ -19,9 +19,21 @@
         .profile { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 3px solid #f0f0f0; }
         .biz-info { font-size: 15px; color: #666; margin-bottom: 5px; }
         .name { font-size: 26px; font-weight: 700; color: #222; margin-bottom: 25px; }
+        
         .btn { display: block; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 18px; text-decoration: none; transition: 0.3s; margin-bottom: 12px; }
-        .btn-call { background: #cc6c2c; color: #fff; box-shadow: 0 4px 12px rgba(204, 108, 44, 0.3); }
-        .btn-blog { background: #2db400; color: #fff; box-shadow: 0 4px 12px rgba(45, 180, 0, 0.2); }
+        
+        /* 전략적 색상 통합: 메인 컬러(브라운)와 서브 컬러(차분한 베이지브라운) */
+        .btn-call { 
+            background: #cc6c2c; 
+            color: #fff; 
+            box-shadow: 0 4px 12px rgba(204, 108, 44, 0.3); 
+        }
+        .btn-blog { 
+            background: #9e8a78; /* 네이버 그린 대신 명함 톤에 맞춘 고급스러운 브라운 */
+            color: #fff; 
+            box-shadow: 0 4px 12px rgba(158, 138, 120, 0.2); 
+        }
+        
         .slogan { font-size: 14px; color: #888; margin-top: 25px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 20px; }
     </style>
 </head>
@@ -34,7 +46,7 @@
         
         <a href="tel:010-8686-6100" class="btn btn-call">📞 전화 상담 바로 연결</a>
         
-        <a href="https://blog.naver.com/pstarking" target="_blank" class="btn btn-blog">🍀 블로그 실매물 확인</a>
+        <a href="https://blog.naver.com/pstarking" target="_blank" class="btn btn-blog">📑 블로그 실매물 확인</a>
         
         <div class="slogan">
             원주 토지 선점 정보 제공<br>
