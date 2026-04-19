@@ -1,39 +1,77 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>성균관공인중개사 박성균 대표</title>
+    <title>성균관 공인중개사 모바일 명함</title>
     <style>
-        body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background-color: #f4f2ed; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .card { width: 340px; background: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; padding: 40px 20px; text-align: center; }
-        .top-tag { color: #cc6c2c; font-size: 15px; font-weight: 700; margin-bottom: 25px; }
-        .profile { width: 115px; height: 115px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 3px solid #f0f0f0; }
-        .biz-info { font-size: 14px; color: #666; margin-bottom: 5px; }
-        .name { font-size: 26px; font-weight: 700; color: #222; margin-bottom: 25px; }
-        .btn { display: block; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 17px; text-decoration: none; transition: 0.3s; margin-bottom: 10px; }
-        .btn-call { background: #cc6c2c; color: #fff; }
-        .btn-apt { background: #e5ddd5; color: #7d6b5b; border: 1px solid #d1c7bc; }
-        .btn-blog { background: #f9f7f5; color: #998c80; font-size: 15px; }
-        .slogan { font-size: 13px; color: #888; margin-top: 25px; line-height: 1.6; border-top: 1px solid #eee; padding-top: 20px; }
-    </style>
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; text-align: center; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        .card { background: white; max-width: 350px; margin: auto; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 30px; }
+        .photo { width: 120px; height: 120px; border-radius: 50%; background: #ddd; margin: auto; overflow: hidden; }
+        .photo img { width: 100%; height: 100%; object-fit: cover; }
+        h1 { font-size: 24px; color: #333; margin: 20px 0 5px; }
+        p { color: #666; font-size: 16px; margin: 5px 0; }
+        .contact { margin-top: 25px; }
+        .btn { display: block; background: #007bff; color: white; text-decoration: none; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-weight: bold; }
+    </style>/* 1. 글씨체: 세련된 프리텐다드 적용 */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+.card-container {
+    font-family: 'Pretendard', sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+/* 2. 구분선 스타일 */
+.divider {
+    border-top: 1px solid #eeeeee;
+    margin: 20px 0;
+    width: 80%;
+    display: inline-block;
+}
+
+/* 3. 오렌지 채도별 버튼 색상 (알려드린 번호 적용) */
+.btn-call { 
+    background-color: #FF6B00; /* 진한 오렌지: 전화 상담 */
+    color: white; font-weight: 700; font-size: 1.2rem;
+}
+
+.btn-submit { 
+    background-color: #FF8533; /* 중간 오렌지: 매물접수 */
+    color: white; 
+}
+
+.btn-blog { 
+    background-color: #FFB380; /* 연한 오렌지: 블로그 */
+    color: #333; 
+}
+
+.btn-map { 
+    background-color: #FFD1B3; /* 가장 연한 오렌지: 위치 */
+    color: #333; 
+}
+
+/* 버튼 공통 디자인: 텍스트 크게 확대 */
+.btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 1.1rem; /* 텍스트 크기 확대 */
+}
 </head>
 <body>
     <div class="card">
-        <div class="top-tag">원주 부동산 투자, 분석부터 다른 중개</div>
-        <img src="photo.jpg" class="profile" alt="박성균 대표">
-        <div class="biz-info">성균관공인중개사사무소</div>
-        <div class="name">박성균 대표</div>
-        
-        <a href="tel:010-8686-6100" class="btn btn-call">📞 전화 상담 바로 연결</a>
-        
-        <a href="https://forms.gle/hvWLKYubTa9GScFp6" target="_blank" class="btn btn-apt">🏢 무실동 아파트 매물 접수</a>
-        
-        <a href="https://blog.naver.com/pstarking" target="_blank" class="btn btn-blog">📑 블로그 실매물 확인</a>
-        
-        <div class="slogan">
-            원주 아파트 및 토지 선점 정보<br>
-            데이터 기반 정밀 분석 리포트 제공
+        <div class="photo">
+            <img src="photo.jpg" alt="프로필 사진">
+        </div>
+        <h1>박성균 대표</h1>
+        <p>성균관 공인중개사 사무소</p>
+        <p>원주시 만대로 119 (무실동)</p>
+        <div class="contact">
+            <a href="tel:010-XXXX-XXXX" class="btn">전화 걸기</a>
+            <a href="sms:010-XXXX-XXXX" class="btn">문자 보내기</a>
         </div>
     </div>
 </body>
