@@ -1,41 +1,36 @@
 <<!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>박성균 대표 명함</title>
     <style>
-        /* 1. 글씨체 적용 */
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        
-        body { background-color: #f4f4f4; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .card-container { 
-            font-family: 'Pretendard', sans-serif; text-align: center; padding: 30px 20px; 
-            background: white; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); width: 100%; max-width: 400px;
-        }
-        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; }
-        .name { font-size: 1.8rem; font-weight: 800; margin: 10px 0; color: #333; }
-        .info { font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 30px; }
-        
-        /* 버튼 디자인 */
-        .btn { 
-            display: block; width: 100%; margin: 10px 0; padding: 15px 0; border-radius: 10px; 
-            text-decoration: none; font-size: 1.2rem; font-weight: 700; transition: 0.3s;
-        }
-        .btn-call { background-color: #FF6B00; color: white; } /* 진한 오렌지 */
-        .btn-msg { background-color: #FF8533; color: white; } /* 중간 오렌지 */
+        body { background-color: #f4f4f4; margin: 0; padding: 20px; display: flex; justify-content: center; font-family: 'Pretendard', sans-serif; }
+        .card { background: white; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.1); width: 100%; max-width: 350px; }
+        .profile-img { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 3px solid #eee; }
+        .name { font-size: 24px; font-weight: 800; margin: 5px 0; }
+        .info { color: #666; font-size: 14px; margin-bottom: 25px; line-height: 1.4; }
+        .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 10px; font-weight: bold; color: white; transition: 0.2s; }
+        .btn-main { width: 100%; height: 55px; background: #FF6B00; font-size: 18px; margin-bottom: 10px; }
+        .sub-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .btn-sub { flex-direction: column; height: 80px; font-size: 12px; background: #FF8533; }
+        .icon { font-size: 20px; margin-bottom: 5px; }
     </style>
 </head>
 <body>
-    <div class="card-container">
-        <img src="face.jpg" alt="박성균 대표" class="profile-img">
+    <div class="card">
+        <img src="face.jpg" class="profile-img">
         <div class="name">박성균 대표</div>
-        <div class="info">
-            성균관 공인중개사 사무소<br>
-            원주시 만대로 119 (무실동)
+        <div class="info">성균관 공인중개사 사무소<br>원주시 만대로 119 (무실동)</div>
+        
+        <a href="tel:01053646610" class="btn btn-main">📞 전화 상담하기</a>
+        
+        <div class="sub-container">
+            <a href="https://blog.naver.com/pstarking01" class="btn btn-sub"><span class="icon">🏠</span>블로그</a>
+            <a href="sms:01053646610?body=매물접수 문의드립니다." class="btn btn-sub"><span class="icon">📝</span>매물접수</a>
+            <a href="sms:01053646610" class="btn btn-sub"><span class="icon">💬</span>메시지</a>
         </div>
-        <a href="tel:010-0000-0000" class="btn btn-call">전화 걸기</a>
-        <a href="sms:010-0000-0000" class="btn btn-msg">문자 보내기</a>
     </div>
 </body>
 </html>
