@@ -1,27 +1,28 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>성균관 박성균 대표</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         body { background-color: #f2f2f2; margin: 0; padding: 20px; display: flex; justify-content: center; font-family: 'Pretendard', sans-serif; }
         .card { background: white; border-radius: 30px; padding: 40px 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.05); width: 100%; max-width: 360px; border: 1px solid #e0d8cc; }
-        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .office-name { color: #b0997a; font-size: 16px; font-weight: 600; margin-bottom: 5px; }
-        .name { font-size: 26px; font-weight: 800; color: #333; margin: 0 0 10px 0; }
-        .phone { font-size: 18px; color: #b0997a; font-weight: 700; margin-bottom: 30px; }
+        .profile-img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .office-name { color: #b0997a; font-size: 18px; font-weight: 600; margin-bottom: 5px; }
+        .name { font-size: 30px; font-weight: 800; color: #222; margin: 0 0 10px 0; }
+        .phone { font-size: 22px; color: #FF6B00; font-weight: 800; margin-bottom: 30px; }
         
-        .btn-container { display: flex; flex-direction: column; gap: 12px; }
-        .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 12px; font-weight: 600; height: 55px; transition: 0.2s; }
+        .btn-container { display: flex; flex-direction: column; gap: 15px; }
+        .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 15px; font-weight: 800; transition: 0.2s; }
         
-        /* 고급스러운 버튼 스타일 */
-        .btn-call { background: #b0997a; color: white; font-size: 18px; border: 2px solid rgba(255,255,255,0.2); }
-        .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .btn-sub { flex-direction: column; height: 85px; font-size: 13px; background: white; color: #666; border: 1px solid #e0d8cc; }
-        .btn-sub:hover { background: #faf8f5; }
-        .icon { font-size: 22px; margin-bottom: 5px; }
+        .btn-call { background: #FF6B00; color: white; font-size: 22px; height: 70px; border: 3px solid rgba(255,255,255,0.3); }
+        .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .btn-sub { flex-direction: column; height: 100px; font-size: 16px; background: white; color: #333; border: 2px solid #FF6B00; }
+        
+        /* 전문 아이콘 스타일 */
+        .icon { font-size: 24px; margin-bottom: 8px; color: #FF6B00; }
     </style>
 </head>
 <body>
@@ -32,12 +33,12 @@
         <div class="phone">010-8686-6100</div>
         
         <div class="btn-container">
-            <a href="tel:01086866100" class="btn btn-call">📞 전화 상담하기</a>
+            <a href="tel:01086866100" class="btn btn-call"><i class="fa-solid fa-phone-flip" style="margin-right:10px;"></i> 전화 상담하기</a>
             
             <div class="sub-group">
-                <a href="https://blog.naver.com/pstarking" class="btn btn-sub"><span class="icon">🏠</span>블로그</a>
-                <a href="sms:01086866100?body=[매물접수] 문의드립니다." class="btn btn-sub"><span class="icon">📝</span>매물접수</a>
-                <a href="sms:01086866100" class="btn btn-sub"><span class="icon">💬</span>메시지</a>
+                <a href="https://blog.naver.com/pstarking" class="btn btn-sub"><i class="fa-solid fa-house-chimney icon"></i>블로그</a>
+                <a href="sms:01086866100?body=[매물접수] 문의드립니다." class="btn btn-sub"><i class="fa-solid fa-pen-to-square icon"></i>매물접수</a>
+                <a href="sms:01086866100" class="btn btn-sub"><i class="fa-solid fa-comment-dots icon"></i>메시지</a>
             </div>
         </div>
     </div>
