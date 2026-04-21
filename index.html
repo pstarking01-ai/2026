@@ -7,22 +7,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #f8f9fa; margin: 0; padding: 15px; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Pretendard', sans-serif; }
-        .card { background: white; border-radius: 25px; padding: 35px 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 360px; }
-        .profile-img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .office-name { color: #8e735b; font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; }
-        .name { font-size: 2.5rem; font-weight: 800; color: #1a1a1a; margin: 0 0 8px 0; }
-        .phone-text { font-size: 1.8rem; color: #e65c00; font-weight: 800; margin-bottom: 25px; text-decoration: none; display: block; }
-        .btn-container { display: flex; flex-direction: column; gap: 10px; }
-        .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 12px; font-weight: 700; transition: 0.2s; }
-        .btn-call { background: #ff8c32; color: white; font-size: 1.8rem; height: 75px; }
-        .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .btn-sub { flex-direction: column; height: 95px; font-size: 1.2rem; background: #fff; color: #333; border: 1.5px solid #ffbc8d; }
-        .btn-sub i { font-size: 1.8rem; margin-bottom: 6px; color: #ff8c32; }
-        .map-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .btn-map { height: 65px; font-size: 1.3rem; background: #fff; color: #333; border: 1.5px solid #ffbc8d; }
-        .address-info { font-size: 0.85rem; color: #999; margin-top: 25px; line-height: 1.4; word-break: keep-all; }
+        body { background-color: #f2f2f2; margin: 0; padding: 15px; display: flex; justify-content: center; font-family: 'Pretendard', sans-serif; }
+        .card { background: white; border-radius: 30px; padding: 30px 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); width: 100%; max-width: 360px; }
+        .profile-img { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .office-name { color: #b0997a; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+        .name { font-size: 42px; font-weight: 800; color: #222; margin: 0 0 5px 0; }
+        .phone-text { font-size: 32px; color: #FF6B00; font-weight: 800; margin-bottom: 25px; text-decoration: none; display: block; }
+        .btn-container { display: flex; flex-direction: column; gap: 12px; }
+        .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 15px; font-weight: 800; transition: 0.2s; }
+        .btn-call { background: #FF9E5E; color: white; font-size: 32px; height: 80px; }
+        .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .btn-sub { flex-direction: column; height: 100px; font-size: 22px; background: white; color: #333; border: 2px solid #FFB380; }
+        .btn-sub i { font-size: 32px; margin-bottom: 8px; color: #FF6B00; }
+        .map-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-map { height: 70px; font-size: 25px; background: white; color: #333; border: 2px solid #FFB380; }
+        .btn-map i { font-size: 22px; margin-right: 8px; }
+        .address-info { font-size: 13px; color: #888; margin-top: 20px; line-height: 1.5; }
     </style>
 </head>
 <body>
@@ -32,17 +32,17 @@
         <div class="name">대표 박성균</div>
         <a href="tel:01086866100" class="phone-text">010-8686-6100</a>
         <div class="btn-container">
-            <a href="tel:01086866100" class="btn btn-call"><i class="fa-solid fa-phone"></i>&nbsp;전화상담</a>
+            <a href="tel:01086866100" class="btn btn-call"><i class="fa-solid fa-phone"></i>전화상담</a>
             <div class="sub-group">
-                <a href="https://blog.naver.com/pstarking" class="btn btn-sub"><i class="fa-solid fa-house"></i>블로그</a>
-                <a href="https://open.kakao.com/o/sF9h6v7g" class="btn btn-sub"><i class="fa-solid fa-pen-to-square"></i>매물접수</a>
+                <a href="https://blog.naver.com/pstarking" target="_blank" class="btn btn-sub"><i class="fa-solid fa-house"></i>블로그</a>
+                <a href="https://open.kakao.com/o/sF9h6v7g" target="_blank" class="btn btn-sub"><i class="fa-solid fa-pen-to-square"></i>매물접수</a>
                 <a href="sms:01086866100" class="btn btn-sub"><i class="fa-solid fa-comment-dots"></i>메시지</a>
             </div>
             <div class="map-group">
-                <a href="https://m.map.naver.com/search2/search.naver?query=원주성균관공인중개사사무소" class="btn btn-map">네이버 지도</a>
-                <a href="https://m.map.kakao.com/actions/searchView?q=원주%20성균관공인중개사사무소" class="btn btn-map">카카오 맵</a>
+                <a href="https://m.map.naver.com/search2/search.naver?query=원주성균관공인중개사사무소" target="_blank" class="btn btn-map">네이버 지도</a>
+                <a href="https://m.map.kakao.com/actions/searchView?q=원주%20성균관공인중개사사무소" target="_blank" class="btn btn-map">카카오 맵</a>
             </div>
-            <div class="address-info">강원도 원주시 만대로 119, 상가 102호<br>(무실동 1715-1 무실6단지 상가)</div>
+            <div class="address-info">강원도 원주시 만대로 119, 상가 102호<br>(무실동 1715-1번지 무실6단지 상가)</div>
         </div>
     </div>
 </body>
