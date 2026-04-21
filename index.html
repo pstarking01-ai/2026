@@ -21,23 +21,26 @@
         .profile-img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .office-name { color: #b0997a; font-size: 25px; font-weight: 600; margin-bottom: 5px; }
         .name { font-size: 50px; font-weight: 800; color: #222; margin: 0 0 10px 0; }
-        .phone-text { font-size: 30px; color: #FF6B00; font-weight: 800; margin-bottom: 30px; text-decoration: none; display: block; }
+        .phone-text { font-size: 35px; color: #FF6B00; font-weight: 800; margin-bottom: 30px; text-decoration: none; display: block; }
         
         .btn-container { display: flex; flex-direction: column; gap: 15px; }
         .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 15px; font-weight: 800; transition: 0.2s; }
         
-        .btn-call { background: #FF9E5E; color: white; font-size: 40px; height: 85px; border: 3px solid rgba(255,255,255,0.3); }
+        /* 메인 버튼: 전화 상담하기 (왕뚜껑 스타일) */
+        .btn-call { background: #FF9E5E; color: white; font-size: 40px; height: 90px; border: 3px solid rgba(255,255,255,0.3); }
         .btn-call i { font-size: 35px; margin-right: 15px; }
 
+        /* 서브 버튼 그룹 (블로그, 매물, 메시지) */
         .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .btn-sub { flex-direction: column; height: 110px; font-size: 30px; background: white; color: #333; border: 2px solid #FFB380; }
-        .btn-sub i { font-size: 35px; margin-bottom: 8px; color: #FF6B00; }
+        .btn-sub { flex-direction: column; height: 120px; font-size: 30px; background: white; color: #333; border: 2px solid #FFB380; }
+        .btn-sub i { font-size: 40px; margin-bottom: 10px; color: #FF6B00; }
 
+        /* 지도 버튼 그룹 (네이버, 카카오) */
         .map-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 5px; }
-        .btn-map { height: 75px; font-size: 28px; background: white; color: #333; border: 2px solid #FFB380; }
+        .btn-map { height: 80px; font-size: 28px; background: white; color: #333; border: 2px solid #FFB380; }
         .btn-map i { font-size: 26px; margin-right: 10px; }
 
-        .address-info { font-size: 14px; color: #888; margin-top: 20px; line-height: 1.5; }
+        .address-info { font-size: 14px; color: #888; margin-top: 25px; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -66,10 +69,10 @@
             </div>
 
             <div class="map-group">
-                <a href="https://map.naver.com/v5/entry/address/1418378822" target="_blank" class="btn btn-map">
+                <a href="https://map.naver.com/p/entry/place/1418378822" target="_blank" class="btn btn-map">
                     <i class="fa-solid fa-location-dot" style="color: #03C75A;"></i>네이버
                 </a>
-                <a href="https://kko.to/vW0P6pXyG1" target="_blank" class="btn btn-map">
+                <a href="https://map.kakao.com/link/map/1113543958" target="_blank" class="btn btn-map">
                     <i class="fa-solid fa-map-location-dot" style="color: #FAE100;"></i>카카오
                 </a>
             </div>
