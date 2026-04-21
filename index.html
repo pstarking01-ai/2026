@@ -1,35 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <meta property="og:title" content="성균관 박성균 대표">
-<meta property="og:description" content="성균관 공인중개사무소 디지털 명함입니다">
-<meta property="og:image" content="https://pstarking01-ai.github.io/2026/kakao-share.jpg">
-<meta property="og:image:width" content="800">
-<meta property="og:image:height" content="400">
-<meta property="og:type" content="website">
-    <meta property="og:image" content="https://pstarking01-ai.github.io/2026/kakao_share.jpg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>성균관 박성균 대표</title>
+    
+    <meta property="og:title" content="성균관 박성균 대표">
+    <meta property="og:description" content="성균관 공인중개사사무소 디지털 명함입니다">
+    <meta property="og:image" content="https://pstarking01-ai.github.io/2026/kakao-share.jpg">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="400">
+    <meta property="og:type" content="website">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         body { background-color: #f2f2f2; margin: 0; padding: 20px; display: flex; justify-content: center; font-family: 'Pretendard', sans-serif; }
         .card { background: white; border-radius: 30px; padding: 40px 20px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.05); width: 100%; max-width: 360px; border: 1px solid #e0d8cc; }
         .profile-img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-bottom: 20px; border: 4px solid white; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        .office-name { color: #b0997a; font-size: 25px; font-weight: 600; margin-bottom: 5px; }
-        .name { font-size: 50px; font-weight: 800; color: #222; margin: 0 0 10px 0; }
-        .phone { font-size: 30px; color: #FF6B00; font-weight: 800; margin-bottom: 30px; }
+        .office-name { color: #b0997a; font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+        .name { font-size: 40px; font-weight: 800; color: #222; margin: 0 0 10px 0; }
+        .phone { font-size: 28px; color: #FF6B00; font-weight: 800; margin-bottom: 30px; }
         
-        .btn-container { display: flex; flex-direction: column; gap: 15px; }
+        .btn-container { display: flex; flex-direction: column; gap: 12px; }
         .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 15px; font-weight: 800; transition: 0.2s; }
         
-        .btn-call { background: #FF9E5E; color: white; font-size: 40px; height: 70px; border: 3px solid rgba(255,255,255,0.3); }
-        .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .btn-sub { flex-direction: column; height: 100px; font-size: 30px; background: white; color: #333; border: 2px solid #FFB380; }
+        /* 메인 버튼 (전화) */
+        .btn-primary { background: #FF9E5E; color: white; font-size: 32px; height: 70px; border: none; }
         
-        /* 전문 아이콘 스타일 */
-        .icon { font-size: 30px; margin-bottom: 20px; color: #FF6B00; }
+        /* 서브 버튼들 (블로그, 매물, 메시지) */
+        .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .btn-sub { flex-direction: column; height: 90px; font-size: 18px; background: white; color: #333; border: 2px solid #FFB380; }
+        .btn-sub i { font-size: 24px; margin-bottom: 8px; color: #FF6B00; }
+
+        /* 오시는 길 버튼 (한 줄) */
+        .btn-map { width: 100%; height: 60px; font-size: 22px; background: white; color: #333; border: 2px solid #FFB380; flex-direction: row; gap: 10px; margin-top: 5px; }
+        .btn-map i { color: #FF6B00; font-size: 22px; }
     </style>
 </head>
 <body>
@@ -40,24 +46,26 @@
         <div class="phone">010-8686-6100</div>
         
         <div class="btn-container">
-    <a href="tel:033..." class="btn btn-primary">...</a>
+            <a href="tel:010-8686-6100" class="btn btn-primary">
+                <i class="fa-solid fa-phone" style="margin-right:15px;"></i>전화 상담하기
+            </a>
 
-    <div class="sub-group">
-        <a href="..." class="btn btn-sub">블로그</a>
-        <a href="..." class="btn btn-sub">매물접수</a>
-        <a href="..." class="btn btn-sub">메시지</a>
-    </div>
-
-    <div style="margin-top: 15px;">
-        <a href="https://map.naver.com/v5/search/성균관공인중개사사무소" target="_blank" class="btn btn-sub" style="width: 100%; height: 65px; flex-direction: row; gap: 10px;">
-            <i class="fa-solid fa-location-dot icon-sub" style="margin-bottom: 0;"></i> 
-            <span>오시는 길</span>
-        </a>
-    </div>
-</div>
-    </div>
-</div>
+            <div class="sub-group">
+                <a href="https://blog.naver.com/pstarking" target="_blank" class="btn btn-sub">
+                    <i class="fa-solid fa-house"></i>블로그
+                </a>
+                <a href="https://open.kakao.com/o/..." target="_blank" class="btn btn-sub">
+                    <i class="fa-solid fa-pen-to-square"></i>매물접수
+                </a>
+                <a href="sms:010-8686-6100" class="btn btn-sub">
+                    <i class="fa-solid fa-comment-dots"></i>메시지
+                </a>
             </div>
+
+            <a href="https://map.naver.com/v5/search/%EC%84%B1%EA%B2%A0%EA%B4%80%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EC%82%AC%EB%AC%B4%EC%86%8C%20%EC%9B%90%EC%A3%BC/place/1418378822" target="_blank" class="btn btn-map">
+    <i class="fa-solid fa-location-dot"></i>오시는 길
+</a>
+            </a>
         </div>
     </div>
 </body>
