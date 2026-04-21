@@ -1,30 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>성균관 박성균 대표</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background:#f2f2f2; display:flex; justify-content:center; padding:20px; font-family:sans-serif; }
-        .card { background:#fff; width:340px; border-radius:20px; padding:30px 10px; text-align:center; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
-        /* 얼굴 크기 강제 고정 - 이 수치가 120이면 절대 클 수 없습니다 */
-        .profile-img { width:120px !important; height:120px !important; border-radius:50%; object-fit:cover; margin-bottom:15px; }
-        .name { font-size:40px; font-weight:bold; margin:10px 0; }
-        .phone { font-size:30px; color:#ff6b00; font-weight:bold; text-decoration:none; display:block; margin-bottom:20px; }
-        .btn { display:block; background:#ff8c32; color:#fff; padding:20px; border-radius:10px; text-decoration:none; font-size:25px; font-weight:bold; margin-bottom:10px; }
-        .map-box { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-        .btn-map { background:#fff; color:#333; border:1px solid #ccc; padding:15px; border-radius:10px; text-decoration:none; font-size:18px; }
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        * { box-sizing: border-box; -webkit-text-size-adjust: none; }
+        body { background-color: #f2f2f2; margin: 0; padding: 20px 10px; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Pretendard', sans-serif; }
+        
+        /* 카드 전체 규격 340px로 봉인 */
+        .card { background: white; border-radius: 25px; padding: 30px 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 340px; margin: 0 auto; }
+        
+        /* 얼굴 크기 절대 고정 (왕뚜껑 방지) */
+        .profile-img { width: 120px !important; height: 120px !important; border-radius: 50%; object-fit: cover; margin: 0 auto 15px auto; border: 3px solid #fff; display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        /* 텍스트 크기 강제 고정 */
+        .office-name { color: #8e735b; font-size: 18px !important; font-weight: 600; margin-bottom: 5px; }
+        .name { font-size: 38px !important; font-weight: 800; color: #1a1a1a; margin: 0 0 5px 0; line-height: 1.2; }
+        .phone-text { font-size: 28px !important; color: #e65c00; font-weight: 800; margin-bottom: 25px; text-decoration: none; display: block; }
+        
+        .btn-container { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .btn { display: flex; align-items: center; justify-content: center; text-decoration: none; border-radius: 12px; font-weight: 700; }
+        
+        /* 전화 버튼 */
+        .btn-call { background: #ff8c32; color: white; font-size: 28px !important; height: 75px !important; }
+        
+        /* 서브 버튼 3개 (블로그, 매물, 메시지) */
+        .sub-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .btn-sub { flex-direction: column; height: 95px !important; font-size: 18px !important; background: #fff; color: #333; border: 1.5px solid #ffbc8d; }
+        .btn-sub i { font-size: 26px !important; margin-bottom: 6px; color: #ff8c32; }
+        
+        /* 지도 버튼 2개 */
+        .map-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .btn-map { height: 65px !important; font-size: 20px !important; background: #fff; color: #333; border: 1.5px solid #ffbc8d; }
+        
+        /* 하단 주소 마진 고정 */
+        .address-info { font-size: 13px !important; color: #999; margin-top: 25px; line-height: 1.4; word-break: keep-all; }
     </style>
 </head>
 <body>
     <div class="card">
         <img src="photo.jpg" class="profile-img">
-        <div style="font-size:18px; color:#888;">성균관 공인중개사</div>
-        <div class="name">박성균 대표</div>
-        <a href="tel:01086866100" class="phone">010-8686-6100</a>
-        <a href="tel:01086866100" class="btn">전화 상담하기</a>
-        <div class="map-box">
-            <a href="https://m.map.naver.com/search2/search.naver?query=원주성균관공인중개사사무소" class="btn-map">네이버 지도</a>
-            <a href="https://m.map.kakao.com/actions/searchView?q=원주시+만대로+119" class="btn-map">카카오 맵</a>
+        <div class="office-name">성균관 공인중개사 사무소</div>
+        <div class="name">대표 박성균</div>
+        <a href="tel:01086866100" class="phone-text">010-8686-6100</a>
+        
+        <div class="btn-container">
+            <a href="tel:01086866100" class="btn btn-call"><i class="fa-solid fa-phone"></i>&nbsp;전화상담</a>
+            
+            <div class="sub-group">
+                <a href="https://blog.naver.com/pstarking" target="_blank" class="btn btn-sub"><i class="fa-solid fa-house"></i>블로그</a>
+                <a href="https://open.kakao.com/o/sF9h6v7g" target="_blank" class="btn btn-sub"><i class="fa-solid fa-pen-to-square"></i>매물접수</a>
+                <a href="sms:01086866100" class="btn btn-sub"><i class="fa-solid fa-comment-dots"></i>메시지</a>
+            </div>
+
+            <div class="map-group">
+                <a href="https://m.map.naver.com/search2/search.naver?query=원주성균관공인중개사사무소" target="_blank" class="btn btn-map">네이버 지도</a>
+                <a href="https://m.map.kakao.com/actions/searchView?q=원주시%20만대로%20119" target="_blank" class="btn btn-map">카카오 맵</a>
+            </div>
+            
+            <div class="address-info">강원도 원주시 만대로 119, 상가 102호<br>(무실동 1715-1 무실6단지 상가)</div>
         </div>
     </div>
 </body>
