@@ -9,21 +9,18 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QH
 from PyQt6.QtCore import QDate, Qt
 from openpyxl.styles import Font, Alignment
 
+from shared.config import Config
+
 class ApartmentApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("아파트 매물 등록 시스템 v1.0")
         self.setGeometry(100, 100, 900, 800)
         
-        # 경로 설정 (reception 폴더 내 apt_folder 이용)
-        self.reception_dir = os.path.dirname(os.path.abspath(__file__))
-        self.db_file = os.path.join(self.reception_dir, 'estate_db.xlsx') # 모든 데이터를 이 파일에 통합
-        self.info_file = self.db_file # 참조용 info_file도 통합 파일로 설정
-        
-        # 부동산 종류 매핑
-        self.type_map = {
-            "아파트": "APT", 
-        }
+        self.db_file = Config.DB_PATH
+        self.info_file = self.db_file
+
+        self.type_map = {"아파트": Config.PREFIX_MAP["아파트"]}
         
         self.init_ui()
         self.refresh_listing_id()
