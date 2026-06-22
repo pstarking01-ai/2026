@@ -207,7 +207,8 @@ class EstateMaster_V13_6(QWidget):
                     total_area += int(area_item.text().replace(',', '').strip())
                 if price_item and price_item.text().replace(',', '').strip().isdigit():
                     total_price += int(price_item.text().replace(',', '').strip())
-            except: continue
+            except (ValueError, TypeError):
+                continue
             
         # 상단 메인 필드와 자동 동기화
         area_field = self.all_fields.get("G2", {}).get("면적(㎡)")
@@ -550,7 +551,7 @@ class EstateMaster_V13_6(QWidget):
         if text.isdigit():
             edit.blockSignals(True)
             try: edit.setText(format(int(text), ","))
-            except: pass
+            except (ValueError, TypeError): pass
             edit.blockSignals(False)
 
     def format_phone(self, group, field_name):
@@ -588,9 +589,11 @@ class EstateMaster_V13_6(QWidget):
                                     try:
                                         num = int(str(mid).split('-')[-1])
                                         if num > max_seq: max_seq = num
-                                    except: continue
+                                    except (ValueError, IndexError):
+                                        continue
                         seq = max_seq + 1
-                except: pass
+                except Exception as e:
+                    print(f"매물ID 순번 조회 중 오류 (기본값 1 사용): {e}")
             m_id = f"{pfx}-{date_str}-{seq:02d}"
 
         media_path_info = "-" # 마케팅 정보 삭제로 인해 고정값 처리
@@ -730,7 +733,7 @@ class EstateMaster_V13_6(QWidget):
             try:
                 cell.value = float(str(cell.value).replace(",", ""))
                 cell.number_format = '#,##0'
-            except: pass
+            except (ValueError, TypeError): pass
 
     def _auto_column_width(self, ws):
         """내용에 따른 열 너비 자동 조정"""

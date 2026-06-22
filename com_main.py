@@ -465,7 +465,7 @@ class EstateMaster_V13_6(QWidget):
 
         excel_path = Config.APT_MASTER_EXCEL_PATH
         if not os.path.exists(excel_path):
-            print(f"⚠️ 경고: {excel_path} 파일을 찾을 수 없습니다. 아파트 마스터 데이터가 없어 자동 완성 기능이 제한됩니다.")
+            self.output.append(f"⚠️ 경고: {excel_path} 파일을 찾을 수 없습니다. 아파트 마스터 데이터가 없어 자동 완성 기능이 제한됩니다.")
             return
 
         try:
@@ -592,7 +592,6 @@ class EstateMaster_V13_6(QWidget):
             os.startfile(self.db_path) # Windows에서 파일 열기
         except Exception as e:
             QMessageBox.critical(self, "오류", f"엑셀 파일을 열 수 없습니다.\n원인: {str(e)}")
-        except: pass
 
     def save_consultation_data(self):
         """상담일지를 별도의 '상담일지' 시트에 저장"""
@@ -935,7 +934,8 @@ class EstateMaster_V13_6(QWidget):
                     total_dep += int(dep_item.text().replace(',', '').strip())
                 if mon_item and mon_item.text().replace(',', '').strip().isdigit():
                     total_mon += int(mon_item.text().replace(',', '').strip())
-            except: continue
+            except (ValueError, TypeError):
+                continue
         
         total_yearly = total_mon * 12
         yield_rate = 0
@@ -957,7 +957,8 @@ class EstateMaster_V13_6(QWidget):
                     total_area += int(area_item.text().replace(',', '').strip())
                 if price_item and price_item.text().replace(',', '').strip().isdigit():
                     total_price += int(price_item.text().replace(',', '').strip())
-            except: continue
+            except (ValueError, TypeError):
+                continue
             
         # 상단 메인 필드와 자동 동기화
         area_field = self.all_fields.get("G2", {}).get("면적(㎡)")
@@ -999,7 +1000,8 @@ class EstateMaster_V13_6(QWidget):
                 # 월세 합산
                 if mon_item and mon_item.text().replace(',', '').isdigit():
                     total_monthly += int(mon_item.text().replace(',', ''))
-            except: continue
+            except (ValueError, TypeError):
+                continue
         
         total_yearly = total_monthly * 12
         
@@ -1029,7 +1031,8 @@ class EstateMaster_V13_6(QWidget):
                         total_deposit += int(item.text().replace(',', '').strip())
                 if mon_item and mon_item.text().replace(',', '').isdigit():
                     total_monthly += int(mon_item.text().replace(',', ''))
-            except: continue
+            except (ValueError, TypeError):
+                continue
         
         total_yearly = total_monthly * 12
         price_field = self.all_fields.get("G3", {}).get("매매가")
@@ -1346,7 +1349,7 @@ class EstateMaster_V13_6(QWidget):
         if text.isdigit():
             edit.blockSignals(True)
             try: edit.setText(format(int(text), ","))
-            except: pass
+            except (ValueError, TypeError): pass
             edit.blockSignals(False)
 
     def format_phone(self, group, field_name):
@@ -1397,9 +1400,11 @@ class EstateMaster_V13_6(QWidget):
                                     try:
                                         num = int(str(mid).split('-')[-1])
                                         if num > max_seq: max_seq = num
-                                    except: continue
+                                    except (ValueError, IndexError):
+                                        continue
                         seq = max_seq + 1
-                except: pass
+                except Exception as e:
+                    print(f"매물ID 순번 조회 중 오류 (기본값 1 사용): {e}")
             m_id = f"{pfx}-{date_str}-{seq:02d}"
 
         # 1.5 사진 저장 처리
@@ -1561,7 +1566,7 @@ class EstateMaster_V13_6(QWidget):
             try:
                 cell.value = float(str(cell.value).replace(",", ""))
                 cell.number_format = '#,##0'
-            except: pass
+            except (ValueError, TypeError): pass
 
     def _auto_column_width(self, ws):
         """내용에 따른 열 너비 자동 조정"""
