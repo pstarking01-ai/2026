@@ -111,6 +111,7 @@ class ApartmentApp(QMainWindow):
         self.owner_phone = QLineEdit() # 관계인 전화번호
         self.owner_phone.textChanged.connect(lambda: self.auto_hyphen(self.owner_phone))
         self.owner_password = QLineEdit() # 비밀번호 (현관, 집)
+        self.owner_password.setEchoMode(QLineEdit.EchoMode.Password)
         self.negotiable_price = QLineEdit(); self.negotiable_price.textChanged.connect(lambda: self.format_number(self.negotiable_price))
         self.lease_end_date = QLineEdit()
         self.lease_end_date.setPlaceholderText("예: 20241231")
@@ -561,8 +562,20 @@ class ApartmentApp(QMainWindow):
             self.parking_per_unit.setText(f"{p/h:.2f}")
         except: self.parking_per_unit.clear()
 
+    @staticmethod
+    def _sanitize_cell(value):
+        """Excel formula injection 방지: 위험 접두문자를 이스케이프 처리"""
+        if isinstance(value, str) and value and value[0] in ('=', '+', '-', '@', '\t', '\r'):
+            return "'" + value
+        return value
+
     def save_sheet(self, file_path, sheet_name, data_dict_list):
         """모든 시트를 유지하며 특정 시트의 데이터를 업데이트하는 공통 함수"""
+        # Excel formula injection 방지
+        data_dict_list = [
+            {k: self._sanitize_cell(v) for k, v in row.items()}
+            for row in data_dict_list
+        ]
         # 저장될 폴더가 없으면 자동으로 생성합니다.
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         new_df = pd.DataFrame(data_dict_list)

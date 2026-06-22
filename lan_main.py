@@ -254,6 +254,7 @@ class EstateMaster_V13_6(QWidget):
         prep_layout.setVerticalSpacing(10)
         self.te_recommend_list = QTextEdit(); self.te_recommend_list.setPlaceholderText("중개사 추천매물 List up (매물 ID 또는 간략 정보)"); self.te_recommend_list.setFixedHeight(80)
         self.le_view_pw = QLineEdit(); self.le_view_pw.setPlaceholderText("비밀번호 (공실)")
+        self.le_view_pw.setEchoMode(QLineEdit.EchoMode.Password)
         self.chk_view_confirmed = QCheckBox("집보기 예약 확인")
         self.le_owner_contact_act = QLineEdit(); self.le_owner_contact_act.setPlaceholderText("소유자 연락처 확인")
 
@@ -566,6 +567,18 @@ class EstateMaster_V13_6(QWidget):
         edit.setText(formatted)
         edit.blockSignals(False)
 
+    @staticmethod
+    def _sanitize_cell(value):
+        """Excel formula injection 방지: 위험 접두문자를 이스케이프 처리"""
+        if isinstance(value, str) and value and value[0] in ('=', '+', '-', '@', '\t', '\r'):
+            return "'" + value
+        return value
+
+    @staticmethod
+    def _is_safe_id(m_id):
+        """매물 ID에 경로 구분자가 없는지 검증 (경로 탐색 방지)"""
+        return not any(c in m_id for c in ('/', '\\', '..', '~'))
+
     def process_save(self):
         type_name = "토지"
         pfx = "LND"
@@ -593,6 +606,11 @@ class EstateMaster_V13_6(QWidget):
                 except: pass
             m_id = f"{pfx}-{date_str}-{seq:02d}"
 
+        # 매물 ID 경로 탐색 방지 검증
+        if not self._is_safe_id(m_id):
+            QMessageBox.warning(self, "오류", "매물 ID에 허용되지 않는 문자가 포함되어 있습니다.")
+            return
+
         media_path_info = "-" # 마케팅 정보 삭제로 인해 고정값 처리
 
         # 2. 데이터 수집
@@ -612,6 +630,9 @@ class EstateMaster_V13_6(QWidget):
 
         for label, widget in self.all_fields["G4"].items():
             record[label] = widget.currentText() if isinstance(widget, QComboBox) else widget.text()
+
+        # Excel formula injection 방지
+        record = {k: self._sanitize_cell(v) for k, v in record.items()}
 
         # 3. 상세 내역 추출 (토지상세)
         detail_df_land = None
