@@ -362,11 +362,12 @@ class ApartmentApp(QMainWindow):
                             try:
                                 # 하이픈 뒤의 숫자 추출
                                 seq_list.append(int(rid.split('-')[-1]))
-                            except: continue
+                            except (ValueError, IndexError):
+                                continue
                         if seq_list:
                             seq = max(seq_list) + 1
-            except Exception:
-                pass # 파일이 없거나 시트가 없는 경우 순번 1 유지
+            except Exception as e:
+                print(f"매물ID 순번 조회 중 오류 (기본값 1 사용): {e}")
         
         self.listing_id.setText(f"{type_code}{date_str}-{str(seq).zfill(2)}")
 
@@ -559,7 +560,8 @@ class ApartmentApp(QMainWindow):
             h = float(self.total_households.text())
             p = float(self.total_parking.text())
             self.parking_per_unit.setText(f"{p/h:.2f}")
-        except: self.parking_per_unit.clear()
+        except (ValueError, ZeroDivisionError):
+            self.parking_per_unit.clear()
 
     def save_sheet(self, file_path, sheet_name, data_dict_list):
         """모든 시트를 유지하며 특정 시트의 데이터를 업데이트하는 공통 함수"""
@@ -671,8 +673,7 @@ class ApartmentApp(QMainWindow):
                             supp_area = str(dong_row.get("공급면적", "")) if not pd.isna(dong_row.get("공급면적")) else ""
                             priv_area = str(dong_row.get("전용면적", "")) if not pd.isna(dong_row.get("전용면적")) else ""
                 except Exception as e:
-                    print(f"estate_db.xlsx에서 동 정보 로드 중 오류 발생: {e}")
-                    # 오류 발생 시 기본값(빈 문자열) 유지
+                    QMessageBox.warning(self, "경고", f"동 정보 로드 중 오류 발생: {e}")
 
             trade_type_val = self.trade_type.currentText()
             # 거래유형에 따른 통합 거래가 결정
@@ -721,8 +722,8 @@ class ApartmentApp(QMainWindow):
                         search_val = safe_complex_id if id_col in ["단지ID", "id"] else c_name
                         if search_val in check_df[id_col].astype(str).str.strip().values:
                             complex_exists = True
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"단지 상세정보 존재 여부 확인 중 오류: {e}")
 
             save_details = False
             if complex_exists:
