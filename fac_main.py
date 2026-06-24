@@ -16,7 +16,7 @@ from openpyxl.styles import Font, PatternFill, Alignment
 class Config:
     DB_PATH = os.path.join(os.path.dirname(__file__), "estate_db.xlsx")
     APT_MASTER_EXCEL_PATH = os.path.join(os.path.dirname(__file__), "apt_complex_info.xlsx")
-    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "property_photos")
+    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "perporty_photos")
     
     PREFIX_MAP = {
         "공장": "FCT"

@@ -15,7 +15,7 @@ from openpyxl.styles import Font, PatternFill, Alignment
 class Config:
     DB_PATH = os.path.join(os.path.dirname(__file__), "estate_db.xlsx")
 
-    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "property_photos")
+    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "perporty_photos")
     
     PREFIX_MAP = {
         "토지": "LND"
