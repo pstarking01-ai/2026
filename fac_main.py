@@ -1151,7 +1151,7 @@ class EstateMaster_V13_6(QWidget):
             found = False
             with pd.ExcelFile(self.db_path, engine='openpyxl') as reader:
                 # 1. 메인 정보 조회 (WHS -> 창고, FCT -> 공장)
-                prefix = m_id.split('-')[0] if '-' in m_id else ""
+                prefix = re.match(r'^([A-Z]+)', m_id).group(1) if re.match(r'^[A-Z]+', m_id) else ""
                 if prefix != "FCT": return
                 logical_name = "공장"
                 
@@ -1391,13 +1391,13 @@ class EstateMaster_V13_6(QWidget):
 
         # [ID 변환 로직] 기존 ID가 있고, 접두어가 현재 선택된 종류와 다를 경우 자동 변환
         if m_id:
-            current_pfx = m_id.split('-')[0]
+            pfx_match = re.match(r'^([A-Z]+)', m_id)
+            current_pfx = pfx_match.group(1) if pfx_match else ""
             if current_pfx in Config.PREFIX_MAP.values() and current_pfx != pfx:
                 old_id = m_id
-                parts = m_id.split('-')
-                if len(parts) >= 3:
-                    m_id = f"{pfx}-{parts[1]}-{parts[2]}"
-                    self.output.append(f"🔄 카테고리 변경 감지: ID가 {old_id}에서 {m_id}로 변환되었습니다.")
+                date_seq = m_id[len(current_pfx):]  # e.g. '260524-01'
+                m_id = f"{pfx}{date_seq}"
+                self.output.append(f"🔄 카테고리 변경 감지: ID가 {old_id}에서 {m_id}로 변환되었습니다.")
 
         if not m_id:
             # 신규 ID 생성 로직
@@ -1407,7 +1407,7 @@ class EstateMaster_V13_6(QWidget):
                 try:
                     with pd.ExcelFile(self.db_path, engine='openpyxl') as reader:
                         max_seq = 0
-                        date_pattern = f"-{date_str}-"
+                        date_pattern = f"{date_str}-"
                         for s_name in reader.sheet_names:
                             df_tmp = pd.read_excel(reader, sheet_name=s_name)
                             if '매물ID' in df_tmp.columns:
@@ -1419,7 +1419,7 @@ class EstateMaster_V13_6(QWidget):
                                     except: continue
                         seq = max_seq + 1
                 except: pass
-            m_id = f"{pfx}-{date_str}-{seq:02d}"
+            m_id = f"{pfx}{date_str}-{seq:02d}"
 
         # 1.5 사진 저장 처리
         media_path_info = "-"

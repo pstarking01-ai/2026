@@ -72,7 +72,7 @@ class EstateMaster_V13_6(QWidget):
 
         # [1행]: 매물ID 및 조회
         h_sel_1 = QHBoxLayout()
-        self.le_m_id = QLineEdit(); self.le_m_id.setPlaceholderText("LND-YYMMDD-NN"); self.le_m_id.setFixedWidth(150)
+        self.le_m_id = QLineEdit(); self.le_m_id.setPlaceholderText("LNDYYMMDD-NN"); self.le_m_id.setFixedWidth(150)
         self.btn_load = QPushButton("매물 불러오기"); self.btn_load.setFixedWidth(120)
         self.btn_load.clicked.connect(self.load_data)
         self.btn_load.setStyleSheet("background-color: #3498db; color: white; font-weight: bold;")
@@ -579,7 +579,7 @@ class EstateMaster_V13_6(QWidget):
                 try:
                     with pd.ExcelFile(self.db_path, engine='openpyxl') as reader:
                         max_seq = 0
-                        date_pattern = f"-{date_str}-"
+                        date_pattern = f"{date_str}-"
                         for s_name in reader.sheet_names:
                             df_tmp = pd.read_excel(reader, sheet_name=s_name)
                             if '매물ID' in df_tmp.columns:
@@ -591,7 +591,7 @@ class EstateMaster_V13_6(QWidget):
                                     except: continue
                         seq = max_seq + 1
                 except: pass
-            m_id = f"{pfx}-{date_str}-{seq:02d}"
+            m_id = f"{pfx}{date_str}-{seq:02d}"
 
         media_path_info = "-" # 마케팅 정보 삭제로 인해 고정값 처리
 
