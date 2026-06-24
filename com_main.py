@@ -4,7 +4,7 @@ import pandas as pd
 import datetime
 import re
 import shutil
-from reception.estate_db import update_apartment_in_excel
+from estate_db import update_apartment_in_excel
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, 
                              QLabel, QLineEdit, QPushButton, QTextEdit, QMessageBox, 
                              QGroupBox, QGridLayout, QComboBox, QTableWidget, QTableWidgetItem, QHeaderView,
@@ -15,12 +15,23 @@ from openpyxl.styles import Font, PatternFill, Alignment
 # 시스템 환경 설정 및 상수 관리
 class Config:
     DB_PATH = os.path.join(os.path.dirname(__file__), "estate_db.xlsx")
-    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "property_photos")
+    APT_MASTER_EXCEL_PATH = os.path.join(os.path.dirname(__file__), "apt_complex_info.xlsx")
+    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "perporty_photos")
     
     PREFIX_MAP = {
         "상가": "COM"
     }
     SNS_FOOTER = "성균관 공인중개사사무소\n성균관전자명함안내 https://pstarking01-ai.github.io/2026/"
+    
+    EXCEL_STYLE = {
+        "font_size": 16,
+        "row_height": 30,
+        "public_color": "D9EAD3",
+        "private_color": "FCE4EC"
+    }
+    WIDTH_KOR = 2.5
+    WIDTH_ENG = 1.2
+    MAX_WIDTH = 50
 
 class EstateMaster_V13_6(QWidget):
     def __init__(self):
@@ -36,6 +47,7 @@ class EstateMaster_V13_6(QWidget):
                 "MKT": ["광고상황", "광고사이트", "자체광고 채널", "사진,영상링크"]
             }
         }
+        self.load_apt_master_db()
         self.initUI()
 
     def initUI(self):
@@ -150,9 +162,11 @@ class EstateMaster_V13_6(QWidget):
         self.chk_data_analysis.setChecked(True)
         self.cb_sns_type = QComboBox(); self.cb_sns_type.addItems(["SNS문자 (개별)", "SNS문자 (다중)"])
         self.btn_sns = QPushButton("📱 SNS 문자 생성")
+        self.btn_copy_markdown = QPushButton("📋 마크다운 복사")
 
         self.btn_save.clicked.connect(self.process_save)
         self.btn_sns.clicked.connect(self.handle_sns_action)
+        self.btn_copy_markdown.clicked.connect(self.copy_as_markdown)
 
         # 하단 버튼 및 위젯 멋있게 꾸미기
         self.btn_save.setFixedHeight(50)
@@ -196,6 +210,9 @@ class EstateMaster_V13_6(QWidget):
         self.btn_sns.setFixedHeight(50)
         self.btn_sns.setStyleSheet("background-color: #27ae60; color: white; font-weight: bold; font-size: 16px; border-radius: 5px;")
 
+        self.btn_copy_markdown.setFixedHeight(50)
+        self.btn_copy_markdown.setStyleSheet("background-color: #9b59b6; color: white; font-weight: bold; font-size: 16px; border-radius: 5px;")
+
         # 하단 출력창 설정 (목록 확인을 위해 높이 확장)
         self.output = QTextEdit()
         self.output.setFixedHeight(180)
@@ -206,6 +223,7 @@ class EstateMaster_V13_6(QWidget):
         btn_h_layout.addWidget(self.chk_data_analysis)
         btn_h_layout.addWidget(self.cb_sns_type)
         btn_h_layout.addWidget(self.btn_sns)
+        btn_h_layout.addWidget(self.btn_copy_markdown)
 
         prop_layout.addLayout(btn_h_layout)
         prop_layout.addWidget(self.output)
@@ -583,16 +601,59 @@ class EstateMaster_V13_6(QWidget):
         except Exception as e:
             self.output.append(f"📊 통계 새로고침 오류: {e}")
 
+    def copy_as_markdown(self):
+        """현재 입력된 상가 매물 정보를 마크다운 테이블 형식으로 클립보드에 복사"""
+        try:
+            m_id = self.le_m_id.text() or "ID미발급"
+            addr = f"{self.le_do.text()} {self.le_si_gun.text()} {self.le_emd_ri.text()} {self.le_jibon.text()}"
+            type_name = self.cb_type.currentText()
+
+            md = f"### 📍 상가 매물 상세 보고서 ({m_id})\n\n"
+            md += "#### **[ 1. 기본 매물 정보 ]**\n"
+            md += "| **구분 항목** | **상세 정보** |\n"
+            md += "| :--- | :--- |\n"
+            md += f"| **매물ID** | {m_id} |\n"
+            md += f"| **매물종류** | {type_name} |\n"
+            md += f"| **📍 소재지** | **{addr}** |\n"
+
+            for group in ["G2", "G3", "MKT", "G4"]:
+                for label, widget in self.all_fields[group].items():
+                    if isinstance(widget, QPushButton):
+                        continue
+                    val = widget.currentText() if isinstance(widget, QComboBox) else widget.text()
+                    if val:
+                        md += f"| {label} | {val} |\n"
+
+            md += "\n#### **[ 2. 상가 상세 (층별) ]**\n"
+            md += "| 층 | 호실 | 용도 | 면적 | 전세보증금 | 월세보증금 | 월세 | 옵션 | 현재상태 | 임차만기일 |\n"
+            md += "| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n"
+            for r in range(self.table.rowCount()):
+                row_vals = []
+                for c in range(self.table.columnCount()):
+                    item = self.table.item(r, c)
+                    row_vals.append(item.text() if item else "")
+                md += "| " + " | ".join(row_vals) + " |\n"
+
+            QApplication.clipboard().setText(md)
+            QMessageBox.information(self, "복사 완료", "상가 매물 정보가 마크다운 형식으로 클립보드에 복사되었습니다.\n메모장이나 메신저에 붙여넣으세요.")
+        except Exception as e:
+            QMessageBox.warning(self, "오류", f"마크다운 생성 중 오류: {e}")
+
     def open_excel_db(self):
         """엑셀 DB 파일을 열기"""
         if not os.path.exists(self.db_path):
             QMessageBox.warning(self, "오류", "데이터베이스 파일이 존재하지 않습니다.")
             return
         try:
-            os.startfile(self.db_path) # Windows에서 파일 열기
+            import subprocess, sys as _sys
+            if _sys.platform == 'win32':
+                os.startfile(self.db_path)
+            elif _sys.platform == 'darwin':
+                subprocess.call(['open', self.db_path])
+            else:
+                subprocess.call(['xdg-open', self.db_path])
         except Exception as e:
             QMessageBox.critical(self, "오류", f"엑셀 파일을 열 수 없습니다.\n원인: {str(e)}")
-        except: pass
 
     def save_consultation_data(self):
         """상담일지를 별도의 '상담일지' 시트에 저장"""
@@ -1134,7 +1195,7 @@ class EstateMaster_V13_6(QWidget):
             found = False
             with pd.ExcelFile(self.db_path, engine='openpyxl') as reader:
                 # 1. 메인 정보 조회 (WHS -> 창고, FCT -> 공장)
-                prefix = m_id.split('-')[0] if '-' in m_id else ""
+                prefix = re.match(r'^([A-Z]+)', m_id).group(1) if re.match(r'^[A-Z]+', m_id) else ""
                 if prefix != "COM": return
                 logical_name = "상가"
                 
@@ -1372,13 +1433,13 @@ class EstateMaster_V13_6(QWidget):
 
         # [ID 변환 로직] 기존 ID가 있고, 접두어가 현재 선택된 종류와 다를 경우 자동 변환
         if m_id:
-            current_pfx = m_id.split('-')[0]
+            pfx_match = re.match(r'^([A-Z]+)', m_id)
+            current_pfx = pfx_match.group(1) if pfx_match else ""
             if current_pfx in Config.PREFIX_MAP.values() and current_pfx != pfx:
                 old_id = m_id
-                parts = m_id.split('-')
-                if len(parts) >= 3:
-                    m_id = f"{pfx}-{parts[1]}-{parts[2]}"
-                    self.output.append(f"🔄 카테고리 변경 감지: ID가 {old_id}에서 {m_id}로 변환되었습니다.")
+                date_seq = m_id[len(current_pfx):]  # e.g. '260524-01'
+                m_id = f"{pfx}{date_seq}"
+                self.output.append(f"🔄 카테고리 변경 감지: ID가 {old_id}에서 {m_id}로 변환되었습니다.")
 
         if not m_id:
             # 신규 ID 생성 로직
@@ -1388,7 +1449,7 @@ class EstateMaster_V13_6(QWidget):
                 try:
                     with pd.ExcelFile(self.db_path, engine='openpyxl') as reader:
                         max_seq = 0
-                        date_pattern = f"-{date_str}-"
+                        date_pattern = f"{date_str}-"
                         for s_name in reader.sheet_names:
                             df_tmp = pd.read_excel(reader, sheet_name=s_name)
                             if '매물ID' in df_tmp.columns:
@@ -1400,7 +1461,7 @@ class EstateMaster_V13_6(QWidget):
                                     except: continue
                         seq = max_seq + 1
                 except: pass
-            m_id = f"{pfx}-{date_str}-{seq:02d}"
+            m_id = f"{pfx}{date_str}-{seq:02d}"
 
         # 1.5 사진 저장 처리
         media_path_info = "-"
@@ -1516,6 +1577,27 @@ class EstateMaster_V13_6(QWidget):
         except Exception as e:
             self.output.append(f"❌ 에러 발생: {str(e)}")
             QMessageBox.critical(self, "저장 에러", f"데이터를 저장하지 못했습니다.\n원인: {str(e)}")
+
+    def clear_inputs(self):
+        """모든 입력 필드를 초기화"""
+        self.le_m_id.clear()
+        self.le_do.clear()
+        self.le_si_gun.clear()
+        self.le_emd_ri.clear()
+        self.le_jibon.clear()
+        for group_name in ["G2", "G3", "MKT", "G4"]:
+            for label, widget in self.all_fields[group_name].items():
+                if isinstance(widget, QPushButton):
+                    continue
+                if isinstance(widget, QComboBox):
+                    widget.setCurrentIndex(0)
+                else:
+                    widget.clear()
+        if hasattr(self, 'table'):
+            self.table.setRowCount(0)
+        self.selected_media = []
+        if hasattr(self, 'btn_add_media'):
+            self.btn_add_media.setText("사진,영상링크 (0)")
 
     def _find_private_col(self, df):
         """비공개 정보 시작점 및 특수 컬럼 인덱스 분석"""

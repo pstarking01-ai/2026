@@ -4,7 +4,7 @@ import pandas as pd
 import datetime
 import re
 import shutil
-from reception.estate_db import update_apartment_in_excel
+from estate_db import update_apartment_in_excel
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout, 
                              QLabel, QLineEdit, QPushButton, QTextEdit, QMessageBox, 
                              QGroupBox, QGridLayout, QComboBox, QTableWidget, QTableWidgetItem, QHeaderView,
@@ -15,12 +15,23 @@ from openpyxl.styles import Font, PatternFill, Alignment
 # 시스템 환경 설정 및 상수 관리
 class Config:
     DB_PATH = os.path.join(os.path.dirname(__file__), "estate_db.xlsx")
-    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "property_photos")
+    APT_MASTER_EXCEL_PATH = os.path.join(os.path.dirname(__file__), "apt_complex_info.xlsx")
+    PHOTO_BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "perporty_photos")
     
     PREFIX_MAP = {
         "창고": "WHS"
     }
     SNS_FOOTER = "성균관 공인중개사사무소\n성균관전자명함안내 https://pstarking01-ai.github.io/2026/"
+    
+    EXCEL_STYLE = {
+        "font_size": 16,
+        "row_height": 30,
+        "public_color": "D9EAD3",
+        "private_color": "FCE4EC"
+    }
+    WIDTH_KOR = 2.5
+    WIDTH_ENG = 1.2
+    MAX_WIDTH = 50
 
 class EstateMaster_V13_6(QWidget):
     def __init__(self):
@@ -36,6 +47,7 @@ class EstateMaster_V13_6(QWidget):
                 "MKT": ["광고상황", "광고사이트", "자체광고 채널", "사진,영상링크"]
             }
         }
+        self.load_apt_master_db()
         self.initUI()
 
     def initUI(self):
@@ -589,10 +601,15 @@ class EstateMaster_V13_6(QWidget):
             QMessageBox.warning(self, "오류", "데이터베이스 파일이 존재하지 않습니다.")
             return
         try:
-            os.startfile(self.db_path) # Windows에서 파일 열기
+            import subprocess, sys as _sys
+            if _sys.platform == 'win32':
+                os.startfile(self.db_path)
+            elif _sys.platform == 'darwin':
+                subprocess.call(['open', self.db_path])
+            else:
+                subprocess.call(['xdg-open', self.db_path])
         except Exception as e:
             QMessageBox.critical(self, "오류", f"엑셀 파일을 열 수 없습니다.\n원인: {str(e)}")
-        except: pass
 
     def save_consultation_data(self):
         """상담일지를 별도의 '상담일지' 시트에 저장"""
@@ -1134,7 +1151,7 @@ class EstateMaster_V13_6(QWidget):
             found = False
             with pd.ExcelFile(self.db_path, engine='openpyxl') as reader:
                 # 1. 메인 정보 조회 (WHS -> 창고, FCT -> 공장)
-                prefix = m_id.split('-')[0] if '-' in m_id else ""
+                prefix = re.match(r'^([A-Z]+)', m_id).group(1) if re.match(r'^[A-Z]+', m_id) else ""
                 if prefix != "WHS": return
                 logical_name = "창고"
                 
@@ -1374,13 +1391,13 @@ class EstateMaster_V13_6(QWidget):
 
         # [ID 변환 로직] 기존 ID가 있고, 접두어가 현재 선택된 종류와 다를 경우 자동 변환
         if m_id:
-            current_pfx = m_id.split('-')[0]
+            pfx_match = re.match(r'^([A-Z]+)', m_id)
+            current_pfx = pfx_match.group(1) if pfx_match else ""
             if current_pfx in Config.PREFIX_MAP.values() and current_pfx != pfx:
                 old_id = m_id
-                parts = m_id.split('-')
-                if len(parts) >= 3:
-                    m_id = f"{pfx}-{parts[1]}-{parts[2]}"
-                    self.output.append(f"🔄 카테고리 변경 감지: ID가 {old_id}에서 {m_id}로 변환되었습니다.")
+                date_seq = m_id[len(current_pfx):]  # e.g. '260524-01'
+                m_id = f"{pfx}{date_seq}"
+                self.output.append(f"🔄 카테고리 변경 감지: ID가 {old_id}에서 {m_id}로 변환되었습니다.")
 
         if not m_id:
             # 신규 ID 생성 로직
@@ -1390,7 +1407,7 @@ class EstateMaster_V13_6(QWidget):
                 try:
                     with pd.ExcelFile(self.db_path, engine='openpyxl') as reader:
                         max_seq = 0
-                        date_pattern = f"-{date_str}-"
+                        date_pattern = f"{date_str}-"
                         for s_name in reader.sheet_names:
                             df_tmp = pd.read_excel(reader, sheet_name=s_name)
                             if '매물ID' in df_tmp.columns:
@@ -1402,7 +1419,7 @@ class EstateMaster_V13_6(QWidget):
                                     except: continue
                         seq = max_seq + 1
                 except: pass
-            m_id = f"{pfx}-{date_str}-{seq:02d}"
+            m_id = f"{pfx}{date_str}-{seq:02d}"
 
         # 1.5 사진 저장 처리
         media_path_info = "-"
@@ -1524,6 +1541,27 @@ class EstateMaster_V13_6(QWidget):
         except Exception as e:
             self.output.append(f"❌ 에러 발생: {str(e)}")
             QMessageBox.critical(self, "저장 에러", f"데이터를 저장하지 못했습니다.\n원인: {str(e)}")
+
+    def clear_inputs(self):
+        """모든 입력 필드를 초기화"""
+        self.le_m_id.clear()
+        self.le_do.clear()
+        self.le_si_gun.clear()
+        self.le_emd_ri.clear()
+        self.le_jibon.clear()
+        for group_name in ["G2", "G3", "MKT", "G4"]:
+            for label, widget in self.all_fields[group_name].items():
+                if isinstance(widget, QPushButton):
+                    continue
+                if isinstance(widget, QComboBox):
+                    widget.setCurrentIndex(0)
+                else:
+                    widget.clear()
+        if hasattr(self, 'table_factory'):
+            self.table_factory.setRowCount(0)
+        self.selected_media = []
+        if hasattr(self, 'btn_add_media'):
+            self.btn_add_media.setText("사진,영상링크 (0)")
 
     def _find_private_col(self, df):
         """비공개 정보 시작점 및 특수 컬럼 인덱스 분석"""
