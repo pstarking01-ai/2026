@@ -162,9 +162,11 @@ class EstateMaster_V13_6(QWidget):
         self.chk_data_analysis.setChecked(True)
         self.cb_sns_type = QComboBox(); self.cb_sns_type.addItems(["SNS문자 (개별)", "SNS문자 (다중)"])
         self.btn_sns = QPushButton("📱 SNS 문자 생성")
+        self.btn_copy_markdown = QPushButton("📋 마크다운 복사")
 
         self.btn_save.clicked.connect(self.process_save)
         self.btn_sns.clicked.connect(self.handle_sns_action)
+        self.btn_copy_markdown.clicked.connect(self.copy_as_markdown)
 
         # 하단 버튼 및 위젯 멋있게 꾸미기
         self.btn_save.setFixedHeight(50)
@@ -208,6 +210,9 @@ class EstateMaster_V13_6(QWidget):
         self.btn_sns.setFixedHeight(50)
         self.btn_sns.setStyleSheet("background-color: #27ae60; color: white; font-weight: bold; font-size: 16px; border-radius: 5px;")
 
+        self.btn_copy_markdown.setFixedHeight(50)
+        self.btn_copy_markdown.setStyleSheet("background-color: #9b59b6; color: white; font-weight: bold; font-size: 16px; border-radius: 5px;")
+
         # 하단 출력창 설정 (목록 확인을 위해 높이 확장)
         self.output = QTextEdit()
         self.output.setFixedHeight(180)
@@ -218,6 +223,7 @@ class EstateMaster_V13_6(QWidget):
         btn_h_layout.addWidget(self.chk_data_analysis)
         btn_h_layout.addWidget(self.cb_sns_type)
         btn_h_layout.addWidget(self.btn_sns)
+        btn_h_layout.addWidget(self.btn_copy_markdown)
 
         prop_layout.addLayout(btn_h_layout)
         prop_layout.addWidget(self.output)
@@ -594,6 +600,44 @@ class EstateMaster_V13_6(QWidget):
                         self.stat_labels[cat].setText(f"{count}건")
         except Exception as e:
             self.output.append(f"📊 통계 새로고침 오류: {e}")
+
+    def copy_as_markdown(self):
+        """현재 입력된 상가 매물 정보를 마크다운 테이블 형식으로 클립보드에 복사"""
+        try:
+            m_id = self.le_m_id.text() or "ID미발급"
+            addr = f"{self.le_do.text()} {self.le_si_gun.text()} {self.le_emd_ri.text()} {self.le_jibon.text()}"
+            type_name = self.cb_type.currentText()
+
+            md = f"### 📍 상가 매물 상세 보고서 ({m_id})\n\n"
+            md += "#### **[ 1. 기본 매물 정보 ]**\n"
+            md += "| **구분 항목** | **상세 정보** |\n"
+            md += "| :--- | :--- |\n"
+            md += f"| **매물ID** | {m_id} |\n"
+            md += f"| **매물종류** | {type_name} |\n"
+            md += f"| **📍 소재지** | **{addr}** |\n"
+
+            for group in ["G2", "G3", "MKT", "G4"]:
+                for label, widget in self.all_fields[group].items():
+                    if isinstance(widget, QPushButton):
+                        continue
+                    val = widget.currentText() if isinstance(widget, QComboBox) else widget.text()
+                    if val:
+                        md += f"| {label} | {val} |\n"
+
+            md += "\n#### **[ 2. 상가 상세 (층별) ]**\n"
+            md += "| 층 | 호실 | 용도 | 면적 | 전세보증금 | 월세보증금 | 월세 | 옵션 | 현재상태 | 임차만기일 |\n"
+            md += "| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n"
+            for r in range(self.table.rowCount()):
+                row_vals = []
+                for c in range(self.table.columnCount()):
+                    item = self.table.item(r, c)
+                    row_vals.append(item.text() if item else "")
+                md += "| " + " | ".join(row_vals) + " |\n"
+
+            QApplication.clipboard().setText(md)
+            QMessageBox.information(self, "복사 완료", "상가 매물 정보가 마크다운 형식으로 클립보드에 복사되었습니다.\n메모장이나 메신저에 붙여넣으세요.")
+        except Exception as e:
+            QMessageBox.warning(self, "오류", f"마크다운 생성 중 오류: {e}")
 
     def open_excel_db(self):
         """엑셀 DB 파일을 열기"""
